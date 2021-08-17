@@ -14,9 +14,10 @@ ser interessante bloquear um usuário por conta do mesmo nome que outro;
 *Em Artefatos tem um MER em pdf;
 
 ### Falta
-* paginação (datatable)
-* busca (datatable)
-* Colocar bootstrap
-* Alterar de submit para ajax
-* Nome e sobrenome apenas letras
-* Endereço, duas palavras
+*Colocar bootstrap
+*Incluir em modal ajax e atualiza o datatable ao finalizar sem submit
+*Alterar em modal ajax e atualiza o datatable ao finalizar sem submit
+*Ao buscar, demorar um tempinho para retornar
+*Nome e sobrenome,validar 3 caracteres cada e não possibilitar número ou outro caracter
+*Centralizar dados das colunas 
+*corrigir metodo datatable para separar model e controller

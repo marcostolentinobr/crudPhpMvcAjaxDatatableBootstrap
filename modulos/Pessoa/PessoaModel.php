@@ -3,17 +3,15 @@
 class PessoaModel extends Model
 {
 
-    protected $select = "
+    public $select = "
         SELECT 
         
                -- usuario 
                P.PessoaId,
                P.PrimeiroNome,
                P.SegundoNome,
-               P.DataNascimento,
+               DATE_FORMAT(P.DataNascimento, '%d/%m/%Y') AS DataNascimento,
                P.Endereco,
-               
-               -- status
                P.Status,
                CASE WHEN P.Status = '1' THEN 'Ativo' 
                     ELSE 'Inativo' 
