@@ -73,3 +73,27 @@ Obs.: Exemplo de cadastro e edição em Artefatos/sensedia.docx
 3ª Configurar o arquivo config.php com os dados do banco;
 
 4ª Rodar
+
+### Modificações
+*Usado char(1) em status ao invéz de numerico;
+*Usado bigint em pessoa para ir ao máximo;
+*Usado smallint em cidade pois são cidades fixas;
+*Ao invéz do tipo text usado varchar
+
+### Observações
+*Caso houvesse o tipo CPF iria usar unique, nesse caso tem apenas nome e 
+sobrenome, mas pode haver usuários com o mesmo nome e sobrenome e acredito não 
+ser interessante bloquear um usuário por conta do mesmo nome que outro;
+*Criado com código proprios, fico a disposição para explica-lo;
+
+### Extras:
+*Em Artefatos tem um MER em pdf;
+
+### Falta
+*Colocar bootstrap
+*Incluir em modal ajax e atualiza o datatable ao finalizar sem submit
+*Alterar em modal ajax e atualiza o datatable ao finalizar sem submit
+*Ao buscar, demorar um tempinho para retornar
+*Nome e sobrenome,validar 3 caracteres cada e não possibilitar número ou outro caracter
+*Centralizar dados das colunas 
+*corrigir metodo datatable para separar model e controller
