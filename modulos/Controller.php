@@ -18,6 +18,12 @@ class Controller
     //Instancia
     protected $Model;
 
+    //datatable
+    protected $datatable;
+    protected $datatableTh;
+    protected $datatableNoSort = [];
+    protected $datatableSortDefalt = 0;
+
     public function __construct()
     {
 
@@ -206,9 +212,37 @@ class Controller
     protected function setDado()
     {
         $this->Dado[$this->chave] = isset($this->Dado[$this->chave]) ? $this->Dado[$this->chave] : '';
-        foreach ($this->permitido as $col => $dados) {
-            $this->Dado[$col] = isset($this->Dado[$col]) ? $this->Dado[$col] : '';
+        foreach ($this->estrutura as $col => $dados) {
+
+            if (isset($dados['datatable'])) {
+                $dt = explode('|', $dados['datatable']);
+                $order = $dt[0];
+
+                foreach ($dt as $param) {
+                    if ($param == 'no-sort') {
+                        $this->datatableNoSort[] = $order;
+                    }
+                    if ($param == 'default') {
+                        $this->datatableSortDefalt = $order;
+                    }
+                }
+
+                //defalt
+                if (isset($dt[2])) {
+                    $this->datatableSortDefalt = $order;
+                }
+
+                $this->datatable[$order] = $col;
+                $this->datatableTh .= "<th>$dados[descricao]</th>";
+            }
+
+            //Manutenção
+            if (isset($dados['params'])) {
+                $this->Dado[$col] = isset($this->Dado[$col]) ? $this->Dado[$col] : '';
+            }
         }
+        $this->datatableNoSort[] = count($this->datatable);
+        $this->datatableTh .= "<th>Ações</th>";
     }
 
     protected function getMsgLinhaAfetada($number)
@@ -221,7 +255,13 @@ class Controller
         $erros = [];
         $campo = [];
 
-        foreach ($this->permitido as $col => $dados) {
+        foreach ($this->estrutura as $col => $dados) {
+
+            //Sem params não é para manutenção
+            if (!isset($dados['params'])) {
+                continue;
+            }
+
             $params = explode('|', $dados['params']);
             $campo[$col] = isset($DADOS[$col]) ? $DADOS[$col] : null;
             $campoValor = reticencias(trim($campo[$col]), 10);
@@ -288,5 +328,82 @@ class Controller
             $this->msg_padrao['encontrar'] = 'encontrada';
             $this->msg_padrao['excluir'] = 'excluída';
         }
+    }
+
+    public function dataTable()
+    {
+        $this->setDado();
+
+        ## Read value
+        $draw = $_POST['draw'];
+        $row = $_POST['start'];
+        $rowperpage = $_POST['length']; // Rows display per page
+        $columnIndex = $_POST['order'][0]['column']; // Column index
+        $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
+        $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
+        $searchValue = $_POST['search']['value']; // Search value
+
+        ## Search 
+        $busca = [];
+        foreach ($this->datatable as $col) {
+            $busca[] = " $col LIKE CONCAT('%',:searchValue,'%') ";
+        }
+        $searchQuery = '';
+        if ($searchValue != '') {
+            $searchQuery = " 
+                WHERE ( " . implode(' OR ', $busca) . " ) 
+            ";
+        }
+
+        ## Total number of records without filtering
+        $totalRecords = $this->Model->all("
+            SELECT COUNT(1) AS TOTAL 
+              FROM $this->tabela
+        ")['dados'][0]['TOTAL'];
+
+        ## Total number of record with filtering
+        $sql_padrao = "
+            SELECT * 
+              FROM ({$this->Model->select}) TB 
+        ";
+        $search_padrao = ($searchQuery ? [':searchValue' => $searchValue] : []);
+        $records = $this->Model->all(
+            $sql_padrao . $searchQuery,
+            $search_padrao
+        )['dados'];
+        $totalRecordwithFilter = count($records);
+
+        ## Fetch records
+        $empQuery = "
+                     $sql_padrao 
+                     $searchQuery
+            ORDER BY {$this->datatable[$columnName]} $columnSortOrder 
+               LIMIT $row, $rowperpage
+        ";
+        $empRecords = $this->Model->all(
+            $empQuery,
+            $search_padrao
+        )['dados'];
+        $data = [];
+        foreach ($empRecords as $id => $row) {
+            $data[$id] = [];
+            foreach ($this->datatable as $col) {
+                $data[$id][] = $row[$col];
+            }
+            $data[$id][] = "
+                <a href='$this->modulo/edit/{$row[$this->chave]}'>Editar</a>
+                <a href='$this->modulo/delete/{$row[$this->chave]}'>Excluir</a>
+            ";
+        }
+
+        ## Response
+        $response = [
+            "draw" => intval($draw),
+            "recordsTotal" => $totalRecords,
+            "recordsFiltered" => $totalRecordwithFilter,
+            "data" => $data
+        ];
+
+        exit(json_encode($response));
     }
 }

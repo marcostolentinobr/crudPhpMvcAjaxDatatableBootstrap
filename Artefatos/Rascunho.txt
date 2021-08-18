@@ -1,2 +1,2 @@
-Alem do readme,
-Em controller as col, fazer elas com o nome do cabeçalho para patronizar
+*Criar class view mais bem elaborada com metodo datatable tirando ele do controller
+*Talvez o controller seja o autoload, sem ser extension de outro
