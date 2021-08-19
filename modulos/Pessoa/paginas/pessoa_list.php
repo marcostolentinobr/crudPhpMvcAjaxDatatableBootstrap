@@ -41,6 +41,13 @@
             serverMethod: 'post',
             ajax: {
                 url: 'api/<?= $this->modulo ?>/datatable'
+            },
+            error: function (xhr, error, code)
+            {
+             /*   console.log(xhr);
+                console.log(code);
+                */
+               alert('sdfs');
             }
         });
         //fim datatable

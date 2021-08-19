@@ -332,7 +332,25 @@ class Controller
 
     public function dataTable()
     {
+
+        //dados
         $this->setDado();
+
+        //Post required
+        $post = ['draw', 'start', 'length', 'order', 'columns', 'search'];
+
+        //erros
+        $erros = [];
+        foreach ($post as $name) {
+            if (!isset($_POST[$name])) {
+                $erros[] = "Enviar post $name";
+            }
+        }
+
+        //erros return
+        if ($erros) {
+            exit(json_encode(['erros' => $erros]));
+        }
 
         ## Read value
         $draw = $_POST['draw'];
