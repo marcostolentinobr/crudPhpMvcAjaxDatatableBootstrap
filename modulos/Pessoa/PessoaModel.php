@@ -31,8 +31,7 @@ class PessoaModel extends Model
 
     public function getCidades()
     {
-        require_once __DIR__ . '/../Cidade/CidadeModel.php';
-        $ModelCidade = new CidadeModel();
+        $ModelCidade = $this->instancia('Cidade');
         return $ModelCidade->list()['dados'];
     }
 }

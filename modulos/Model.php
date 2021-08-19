@@ -15,4 +15,11 @@ class Model extends Conexao
 
         return $this->all($this->select);
     }
+
+    public function instancia($modulo)
+    {
+        require_once RAIZ . "/modulos/$modulo/{$modulo}Model.php";
+        $Model = "{$modulo}Model";
+        return new $Model();
+    }
 }
