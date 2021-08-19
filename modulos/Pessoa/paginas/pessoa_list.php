@@ -1,6 +1,15 @@
+<!-- bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- jquery -->
+<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
+
 <!-- datatable -->
 <link rel='stylesheet' href='https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css'>
+<script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script>
 
+<!-- table -->
 <table id='<?= $this->modulo ?>Datatable' class='display cell-border'>
     <thead>
         <?= $this->datatableTh ?>
@@ -9,12 +18,7 @@
         <?= $this->datatableTh ?>
     </tfoot>
 </table>
-
-<!-- jquery -->
-<script src='https://code.jquery.com/jquery-3.6.0.min.js'></script>
-
-<!-- datatable -->
-<script src='https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js'></script>
+<!-- fim table -->
 
 <script>
     $(document).ready(function() {

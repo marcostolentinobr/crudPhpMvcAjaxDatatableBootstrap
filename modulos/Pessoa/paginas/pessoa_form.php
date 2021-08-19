@@ -1,54 +1,73 @@
-<form method="POST" action="<?= $this->modulo ?>/<?= $this->acao ?>">
+<form class="was-validated" method="POST" action="<?= $this->modulo ?>/<?= $this->acao ?>">
 
     <!-- id -->
     <input name="PessoaId" value="<?= $this->Dado['PessoaId'] ?>" hidden>
 
-    <!-- PrimeiroNome -->
-    <label for="PrimeiroNome">Primeiro Nome:</label><br>
-    <input name="PrimeiroNome" id="PrimeiroNome" type="text" maxlength="255" value="<?= $this->Dado['PrimeiroNome'] ?>" required>
-    <br><br>
+    <div class="row g-3">
 
-    <!-- SegundoNome -->
-    <label for="SegundoNome">Segundo Nome:</label><br>
-    <input name="SegundoNome" id="SegundoNome" type="text" maxlength="255" value="<?= $this->Dado['SegundoNome'] ?>" required>
-    <br><br>
+        <!-- PrimeiroNome -->
+        <div class="col-sm-6">
+            <label for="PrimeiroNome" class="form-label">Primeiro nome:</label>
+            <input type="text" class="form-control" id="PrimeiroNome" name="PrimeiroNome" required minlength="3" maxlength="255" value="<?= $this->Dado['PrimeiroNome'] ?>">
+        </div>
 
-    <!-- Endereco -->
-    <label for="Endereco">Endereço:</label><br>
-    <input name="Endereco" id="Endereco" type="text" maxlength="50" value="<?= $this->Dado['Endereco'] ?>" required>
-    <br><br>
+        <!-- SegundoNome -->
+        <div class="col-sm-6">
+            <label for="SegundoNome" class="form-label">Segundo Nome:</label>
+            <input type="text" class="form-control" id="SegundoNome" name="SegundoNome" required minlength="3" maxlength="255" value="<?= $this->Dado['PrimeiroNome'] ?>">
+        </div>
 
-    <!-- CidadeId -->
-    <label for="CidadeId">Cidade:</label><br>
-    <select name="CidadeId" id="CidadeId" required>
-        <option></option>
-        <?php foreach ($this->CidadeDados as $dado) : ?>
-            <option value="<?= $dado['CidadeId'] ?>" <?= $this->Dado['CidadeId'] == $dado['CidadeId'] ? 'selected' : '' ?>>
-                <?= $dado['CidadeDesc'] ?>
-            </option>
-        <?php endforeach ?>
-    </select>
-    <br><br>
+    </div>
 
-    <!-- DataNascimento -->
-    <label for="DataNascimento">Data de nascimento:</label><br>
-    <input name="DataNascimento" id="DataNascimento" type="date" value="<?= $this->Dado['DataNascimento'] ?>" required>
-    <br><br>
+    <div class="row g-3">
 
-    <!-- Status -->
-    <label for="Status">Status:</label><br>
-    <select name="Status" id="Status" required>
-        <option></option>
-        <option value="1" <?= $this->Dado['Status'] == 1 ? 'selected' : '' ?>>
-            Ativo
-        </option>
-        <option value="2" <?= $this->Dado['Status'] == 2 ? 'selected' : '' ?>>
-            Inativo
-        </option>
-        </option>
-    </select>
-    <br><br>
+        <!-- Endereco -->
+        <div class="col-sm-6">
+            <label for="Endereco" class="form-label">Endereço:</label>
+            <input type="text" class="form-control" id="Endereco" name="Endereco" required minlength="3" maxlength="255" value="<?= $this->Dado['Endereco'] ?>">
+        </div>
 
-    <!-- insert -->
-    <button><?= $this->acao_descricao ?></button>
+        <!-- CidadeId -->
+        <div class="col-sm-6">
+            <label for="CidadeId" class="form-label">Cidade:</label>
+            <select class="form-select" name="CidadeId" id="CidadeId" required>
+                <option></option>
+                <?php foreach ($this->CidadeDados as $dado) : ?>
+                    <option value="<?= $dado['CidadeId'] ?>" <?= $this->Dado['CidadeId'] == $dado['CidadeId'] ? 'selected' : '' ?>>
+                        <?= $dado['CidadeDesc'] ?>
+                    </option>
+                <?php endforeach ?>
+            </select>
+        </div>
+
+    </div>
+
+    <div class="row g-3">
+
+        <!-- PrimeiroNome -->
+        <div class="col-sm-6">
+            <label for="DataNascimento" class="form-label">Data de nascimento:</label>
+            <input type="date" class="form-control" id="DataNascimento" name="DataNascimento" required value="<?= $this->Dado['DataNascimento'] ?>">
+        </div>
+
+        <!-- CidadeId -->
+        <div class="col-sm-6">
+            <label for="Status" class="form-label">Status:</label>
+            <select class="form-select" name="Status" id="Status" required>
+                <option></option>
+                <option value="1" <?= $this->Dado['Status'] == 1 ? 'selected' : '' ?>>
+                    Ativo
+                </option>
+                <option value="2" <?= $this->Dado['Status'] == 2 ? 'selected' : '' ?>>
+                    Inativo
+                </option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- btn -->
+    <hr class="my-4">
+    <button class="btn btn-primary"><?= $this->acao_descricao ?></button>
+
 </form>

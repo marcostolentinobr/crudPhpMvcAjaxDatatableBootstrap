@@ -4,7 +4,7 @@ class Pessoa extends Controller
 {
     protected $descricao = 'Usuários';
     protected $descricao_singular = 'Usuário';
-    protected $modulo_masculino = false;
+    protected $modulo_masculino = true;
     protected $chave = 'PessoaId';
     protected $tabela = 'Pessoa';
 

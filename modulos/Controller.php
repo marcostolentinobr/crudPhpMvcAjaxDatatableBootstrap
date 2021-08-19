@@ -46,7 +46,7 @@ class Controller
 
         //erro
         if ($all['erro']) {
-            $this->setMsg($this->msg_padrao['execucao'], 'red', $all['erro']);
+            $this->setMsg($this->msg_padrao['execucao'], 'danger', $all['erro']);
         }
 
         //dado
@@ -65,7 +65,7 @@ class Controller
         //erros de campo
         if ($DADOS['erros']) {
             $msg = '<li>' . implode('<li>', $DADOS['erros']);
-            $cor = 'red';
+            $style = 'danger';
             $obs = 'Verifique os dados';
         }
         //sem erros de campo
@@ -77,19 +77,19 @@ class Controller
             //erro
             if ($exec['erro']) {
                 $msg = $this->msg_padrao['execucao'];
-                $cor = 'red';
+                $style = 'danger';
                 $obs = $exec['erro'];
             }
             //sucesso
             else {
                 $msg = "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!";
-                $cor = 'green';
+                $style = 'success';
                 $obs = $this->getMsgLinhaAfetada($exec['prep']->rowCount());
             }
         }
 
         //list
-        $this->setMsg($msg, $cor, $obs);
+        $this->setMsg($msg, $style, $obs);
         $this->list();
     }
 
@@ -104,13 +104,13 @@ class Controller
 
         //erro
         if ($exec['erro']) {
-            $this->setMsg($this->msg_padrao['execucao'], 'red', $exec['erro']);
+            $this->setMsg($this->msg_padrao['execucao'], 'danger', $exec['erro']);
         }
         //Não encontrado
         elseif ($exec['prep']->rowCount() == 0) {
             $this->setMsg(
                 "$this->descricao_singular não {$this->msg_padrao['encontrar']} para excluir",
-                'red',
+                'danger',
                 $this->msg_padrao['nenhuma']
             );
         }
@@ -118,7 +118,7 @@ class Controller
         else {
             $this->setMsg(
                 "$this->descricao_singular {$this->msg_padrao['excluir']} com sucesso!",
-                'green',
+                'success',
                 $this->getMsgLinhaAfetada($exec['prep']->rowCount())
             );
         }
@@ -137,13 +137,13 @@ class Controller
 
         //erro
         if ($all['erro']) {
-            $this->setMsg($this->msg_padrao['execucao'], 'red', $all['erro']);
+            $this->setMsg($this->msg_padrao['execucao'], 'danger', $all['erro']);
         }
         //Não encontrado
         elseif (count($this->Dado) == 0) {
             $this->setMsg(
                 "$this->descricao_singular não {$this->msg_padrao['encontrar']} para editar",
-                'red',
+                'danger',
                 $this->msg_padrao['nenhuma']
             );
         }
@@ -167,7 +167,7 @@ class Controller
         //erros de campo
         if ($DADOS['erros']) {
             $msg = '<li>' . implode('<li>', $DADOS['erros']);
-            $cor = 'red';
+            $style = 'danger';
             $obs = 'Verifique os dados';
         } else {
 
@@ -177,35 +177,35 @@ class Controller
 
             //erro
             if ($exec['erro']) {
-                $this->setMsg($this->msg_padrao['execucao'], 'red', $exec['erro']);
+                $this->setMsg($this->msg_padrao['execucao'], 'danger', $exec['erro']);
             }
             //Nada modificado
             elseif ($exec['prep']->rowCount() == 0) {
                 $msg = "$this->descricao_singular não {$this->msg_padrao['alterar']}, nada modificado.";
-                $cor = 'red';
+                $style = 'danger';
                 $obs = $this->msg_padrao['nenhuma'];
             }
             //Sucesso
             else {
                 $msg = "$this->descricao_singular {$this->msg_padrao['alterar']} com sucesso!";
-                $cor = 'green';
+                $style = 'success';
                 $obs = $this->getMsgLinhaAfetada($exec['prep']->rowCount());
             }
         }
 
         //list
-        $this->setMsg($msg, $cor, $obs);
+        $this->setMsg($msg, $style, $obs);
         $this->list();
     }
 
     //mensagem 
-    public function setMsg($msg, $cor, $obs)
+    public function setMsg($msg, $style, $obs)
     {
         $this->msg = " 
-            <h4 style='color: $cor'>
+            <div class='alert alert-$style'>
                 $msg<br>
                 <small style='font-size: 10px; color: silver'>$obs</small>
-            </h4>
+            </div>
         ";
     }
 
