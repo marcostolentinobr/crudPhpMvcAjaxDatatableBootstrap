@@ -10,7 +10,7 @@
 
 <body>
     <!-- instanciar controller -->
-    <?php require_once __DIR__ . '/modulos/View.php' ?>
+    <?php require_once RAIZ . '/modulos/View.php' ?>
 </body>
 
 </html>

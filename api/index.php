@@ -11,6 +11,7 @@ if (file_exists($fileModel)) {
 //Controller
 $fileControler = RAIZ . '/modulos/' . CLASSE . '/' . CLASSE . '.php';
 if (file_exists($fileControler)) {
+    require_once RAIZ . '/modulos/Api.php';
     require_once RAIZ . '/modulos/Controller.php';
     require_once $fileControler;
 }
