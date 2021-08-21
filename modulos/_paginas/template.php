@@ -22,6 +22,7 @@
 
 <script>
     var datatable = null;
+    var modal_form_incluir = document.getElementById('modal_form_incluir_<?= $this->modulo ?>');
     $(document).ready(function() {
 
         //datatable
@@ -91,10 +92,10 @@
                     });
 
                     //modal
-                    $('#modal_form_incluir_<?= $this->modulo ?> .modal-title').html(data.title);
-                    $('#modal_form_incluir_<?= $this->modulo ?>').attr('action', '<?= $this->modulo ?>/update');
-                    $('#modal_form_incluir_<?= $this->modulo ?> .btn-success').html('Alterar');
-                    var modal = new bootstrap.Modal(document.getElementById('modal_form_incluir_<?= $this->modulo ?>'));
+                    $('.modal-title', modal_form_incluir).html(data.title);
+                    $(modal_form_incluir).attr('action', '<?= $this->modulo ?>/update');
+                    $('.modal-title .btn-success', modal_form_incluir).html('Alterar');
+                    var modal = new bootstrap.Modal(modal_form_incluir);
                     modal.show();
 
                 } else {
@@ -115,12 +116,11 @@
     //fim editar
 
     //btn reset incluir
-    var modal = document.getElementById('modal_form_incluir_<?= $this->modulo ?>');
-    modal.addEventListener('hide.bs.modal', function() {
-        $('#modal_acao .modal-title').html('Incluir <?= $this->descricao_singular ?>');
-        var form = $('#form_<?= $this->modulo ?>');
-        form.attr('action', '<?= $this->modulo ?>/insert');
-        form.trigger('reset');
-        $('#form_<?= $this->modulo ?> .btn-success').html('Incluir');
+
+    modal_form_incluir.addEventListener('hide.bs.modal', function() {
+        $('.modal-title', modal_form_incluir).html('Incluir <?= $this->descricao_singular ?>');
+        $(modal_form_incluir).attr('action', '<?= $this->modulo ?>/insert');
+        $(modal_form_incluir).trigger('reset');
+        $('.btn-success', modal_form_incluir).html('Incluir');
     })
 </script>

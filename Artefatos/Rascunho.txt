@@ -1,9 +1,8 @@
 *Criar class view mais bem elaborada com metodo datatable tirando ele do controller
 *Talvez o controller seja o autoload, sem ser extension de outro
 
-*Validar min 3 caracteres nome, sobrenome, endereço no php
+*Validar min 3 caracteres nome, sobrenome, endereço no php, apenas letra em nome e sobre nome
 *Erros de campos, acrescentar os erros em labels nos campos e focar no proximo erro
 *colocar modal para alterar, incluir
 
-
-*ao fechar o incluir resetar form, assim como no alterar para default
+*reduzir ao maximo o jquery para apenas um vanila

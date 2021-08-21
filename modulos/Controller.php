@@ -54,7 +54,7 @@ class Controller extends Api
 
         //View
         $this->addPagina('form');
-        require_once RAIZ . "/modulos/$this->modulo/{$this->modulo}View.php";
+        require_once RAIZ . "/modulos/_paginas/template.php";
     }
 
     public function insert()
