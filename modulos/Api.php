@@ -31,7 +31,7 @@ class Api
             exit(json_encode(['erro' => $erros]));
         }
 
-        ## Read value
+        //Read value
         $draw = $_POST['draw'];
         $row = $_POST['start'];
         $rowperpage = $_POST['length']; // Rows display per page
@@ -40,7 +40,7 @@ class Api
         $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
         $searchValue = $_POST['search']['value']; // Search value
 
-        ## Search 
+        //Search 
         $busca = [];
         foreach ($this->datatable as $col) {
             $busca[] = " $col LIKE CONCAT('%',:searchValue,'%') ";
@@ -52,13 +52,13 @@ class Api
             ";
         }
 
-        ## Total number of records without filtering
+        //Total number of records without filtering
         $totalRecords = $this->Model->all("
             SELECT COUNT(1) AS TOTAL 
               FROM $this->tabela
         ")['dados'][0]['TOTAL'];
 
-        ## Total number of record with filtering
+        //Total number of record with filtering
         $sql_padrao = "
             SELECT * 
               FROM ({$this->Model->select}) TB 
@@ -70,7 +70,7 @@ class Api
         )['dados'];
         $totalRecordwithFilter = count($records);
 
-        ## Fetch records
+        //Fetch records
         $empQuery = "
                      $sql_padrao 
                      $searchQuery
@@ -91,14 +91,14 @@ class Api
                 <div class='dropdown'>
                     <button class='btn btn-secondary dropdown-toggle' data-bs-toggle='dropdown'></button>
                     <ul class='dropdown-menu' style='padding: 0'>
-                        <a class='dropdown-item' href='$this->modulo/edit/{$row[$this->chave]}'>Editar</a>
+                        <a class='dropdown-item' style='cursor: pointer'onclick='editar({$row[$this->chave]})'>Editar</a>
                         <a class='dropdown-item' style='cursor: pointer'onclick='excluir({$row[$this->chave]})'>Excluir</a>
                     </ul>
                 </div>
             ";
         }
 
-        ## Response
+        //Response
         $response = [
             "draw" => intval($draw),
             "recordsTotal" => $totalRecords,
@@ -106,6 +106,7 @@ class Api
             "data" => $data
         ];
 
+        //return
         exit(json_encode($response));
     }
 
@@ -120,9 +121,9 @@ class Api
         if ($exec['erro']) {
             exit(json_encode([
                 'status' => 0,
-                'title' => $this->modulo,
+                'title' => "Excluir $this->modulo",
                 'msg' => $this->msg_padrao['execucao'],
-                'details' => $this->msg_padrao['erro']
+                '' => $this->msg_padrao['erro']
             ]));
         }
 
@@ -130,18 +131,56 @@ class Api
         elseif ($exec['prep']->rowCount() == 0) {
             exit(json_encode([
                 'status' => 0,
-                'title' => $this->modulo,
+                'title' => "Excluir $this->modulo",
                 'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para excluir",
-                'details' => $this->getMsgLinhaAfetada(0)
+                'detail' => $this->getMsgLinha(0)
             ]));
         }
 
         //Sucesso
         exit(json_encode([
             'status' => 1,
-            'title' => $this->modulo,
+            'title' => "Excluir $this->modulo",
             'msg' => "$this->descricao_singular {$this->msg_padrao['excluir']} com sucesso!",
-            'details' => $this->getMsgLinhaAfetada($exec['prep']->rowCount())
+            'detail' => $this->getMsgLinha($exec['prep']->rowCount())
         ]));
+    }
+
+    public function editar()
+    {
+
+        //all
+        $where = [$this->chave => CHAVE];
+        $all = $this->Model->list($where);
+        $this->Dado = (isset($all['dados'][0]) ? $all['dados'][0] : []);
+
+        //erro
+        if ($all['erro']) {
+            exit(json_encode([
+                'status' => 0,
+                'title' => "Editar $this->modulo",
+                'msg' => $this->msg_padrao['execucao'],
+                'detail' => $all['erro']
+            ]));
+        }
+
+        //Não encontrado
+        elseif (count($this->Dado) == 0) {
+            exit(json_encode([
+                'status' => 0,
+                'title' => "Editar $this->modulo",
+                'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para editar",
+                'detail' => $this->getMsgLinha(0, 'encontrar')
+            ]));
+        }
+
+        //Sucesso
+        exit(json_encode([
+            'status' => 1,
+            'title' => "Editar $this->modulo",
+            'msg' => $this->getMsgLinha(0, 'encontrar'),
+            'detail' => $this->Dado
+        ]));
+
     }
 }

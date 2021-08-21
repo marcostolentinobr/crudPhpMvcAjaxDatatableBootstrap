@@ -64,18 +64,71 @@
             url: 'api/<?= $this->modulo ?>/excluir/' + chave,
             success: function(data) {
                 var data = $.parseJSON(data);
+
+                //modal
                 var modal = new bootstrap.Modal(document.getElementById('modal_msg'));
                 $('#modal_msg .modal-title').html(data.title);
                 $('#modal_msg .modal-body').html(
                     data.msg + '<br>' +
-                    '<small style="font-size: 10px">' + data.details + '</small>'
+                    '<small style="font-size: 10px">' + data.detail + '</small>'
                 );
+
+                //reload datatable
                 if (data.status == 1) {
                     datatable.ajax.reload();
                 }
+
+                //modal
                 modal.show();
             }
         });
     }
     //fim excluir
+
+    //editar
+    function editar(chave) {
+        $.ajax({
+            type: 'GET',
+            url: 'api/<?= $this->modulo ?>/editar/' + chave,
+            success: function(data) {
+                var data = $.parseJSON(data);
+                if (data.status == 1) {
+
+                    //dados
+                    $.each(data.detail, function(id, valor) {
+                        $('#' + id).val(valor);
+                    });
+
+                    //modal
+                    $('#modal_acao .modal-title').html(data.title);
+                    $('#form_<?= $this->modulo ?>').attr('action', '<?= $this->modulo ?>/update');
+                    $('#form_<?= $this->modulo ?> .btn-success').html('Alterar');
+                    var modal = new bootstrap.Modal(document.getElementById('modal_acao'));
+                    modal.show();
+
+                } else {
+
+                    //modal
+                    var modal = new bootstrap.Modal(document.getElementById('modal_msg'));
+                    $('#modal_msg .modal-title').html(data.title);
+                    $('#modal_msg .modal-body').html(
+                        data.msg + '<br>' +
+                        '<small style="font-size: 10px">' + data.detail + '</small>'
+                    );
+                    modal.show();
+                }
+
+            }
+        });
+    }
+    //fim editar
+
+    //btn reset incluir
+    modal_acao.addEventListener('hide.bs.modal', function() {
+        $('#modal_acao .modal-title').html('Incluir <?= $this->descricao_singular ?>');
+        var form = $('#form_<?= $this->modulo ?>');
+        form.attr('action', '<?= $this->modulo ?>/insert');
+        form.trigger('reset');
+        $('#form_<?= $this->modulo ?> .btn-success').html('Incluir');
+    })
 </script>

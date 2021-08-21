@@ -5,7 +5,6 @@ class Controller extends Api
     //Parametros
     protected $modulo;
     protected $acao = 'insert';
-    protected $acao_descricao = 'Incluir';
     protected $msg;
     protected $msg_padrao = [];
 
@@ -78,7 +77,7 @@ class Controller extends Api
             else {
                 $msg = "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!";
                 $style = 'success';
-                $obs = $this->getMsgLinhaAfetada($exec['prep']->rowCount());
+                $obs = $this->getMsgLinha($exec['prep']->rowCount());
             }
         }
 
@@ -87,37 +86,6 @@ class Controller extends Api
         $this->list();
     }
     
-    public function edit()
-    {
-
-        //all
-        $where = [$this->chave => CHAVE];
-        $all = $this->Model->list($where);
-        $this->Dado = (isset($all['dados'][0]) ? $all['dados'][0] : []);
-
-        //erro
-        if ($all['erro']) {
-            $this->setMsg($this->msg_padrao['execucao'], 'danger', $all['erro']);
-        }
-        //Não encontrado
-        elseif (count($this->Dado) == 0) {
-            $this->setMsg(
-                "$this->descricao_singular não {$this->msg_padrao['encontrar']} para editar",
-                'danger',
-                $this->getMsgLinhaAfetada(0)
-            );
-        }
-        //Sucesso
-        else {
-            //Params
-            $this->acao = 'update';
-            $this->acao_descricao = 'Alterar';
-        }
-
-        //list
-        $this->list();
-    }
-
     public function update()
     {
 
@@ -143,13 +111,13 @@ class Controller extends Api
             elseif ($exec['prep']->rowCount() == 0) {
                 $msg = "$this->descricao_singular não {$this->msg_padrao['alterar']}, nada modificado.";
                 $style = 'danger';
-                $obs = $this->getMsgLinhaAfetada(0);
+                $obs = $this->getMsgLinha(0);
             }
             //Sucesso
             else {
                 $msg = "$this->descricao_singular {$this->msg_padrao['alterar']} com sucesso!";
                 $style = 'success';
-                $obs = $this->getMsgLinhaAfetada($exec['prep']->rowCount());
+                $obs = $this->getMsgLinha($exec['prep']->rowCount());
             }
         }
 
@@ -205,12 +173,12 @@ class Controller extends Api
         $this->datatableTh .= "<th>Ações</th>";
     }
 
-    protected function getMsgLinhaAfetada($number)
+    protected function getMsgLinha($number,$msg_padrao = 'afetar')
     {
         if ($number <= 1) {
-            return "$number $this->descricao_singular {$this->msg_padrao['afetar']}";
+            return "$number $this->descricao_singular {$this->msg_padrao[$msg_padrao]}";
         }
-        return "$number $this->descricao {$this->msg_padrao['afetar']}s";
+        return "$number $this->descricao {$this->msg_padrao[$msg_padrao]}s";
         
     }
 
