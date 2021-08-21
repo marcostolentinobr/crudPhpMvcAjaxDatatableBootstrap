@@ -29,6 +29,10 @@ class Controller extends Api
 
         //Msg
         $this->setMsgPadrao();
+
+        if (!METODO) {
+            $this->list();
+        }
     }
 
     public function list()
@@ -44,6 +48,9 @@ class Controller extends Api
 
         //dado
         $this->setDado();
+
+        //lista
+        $this->setLista();
 
         //View
         $this->addPagina('form');
@@ -86,7 +93,7 @@ class Controller extends Api
         $this->setMsg($msg, $style, $obs);
         $this->list();
     }
-    
+
     public function update()
     {
 
@@ -141,46 +148,52 @@ class Controller extends Api
     protected function setDado()
     {
         $this->Dado[$this->chave] = isset($this->Dado[$this->chave]) ? $this->Dado[$this->chave] : '';
-        foreach ($this->estrutura as $col => $dados) {
-
-            if (isset($dados['datatable'])) {
-                $dt = explode('|', $dados['datatable']);
-                $order = $dt[0];
-
-                foreach ($dt as $param) {
-                    if ($param == 'no-sort') {
-                        $this->datatableNoSort[] = $order;
-                    }
-                    if ($param == 'default') {
-                        $this->datatableSortDefalt = $order;
-                    }
-                }
-
-                //defalt
-                if (isset($dt[2])) {
-                    $this->datatableSortDefalt = $order;
-                }
-
-                $this->datatable[$order] = $col;
-                $this->datatableTh .= "<th>$dados[descricao]</th>";
-            }
-
-            //Manutenção
-            if (isset($dados['params'])) {
-                $this->Dado[$col] = isset($this->Dado[$col]) ? $this->Dado[$col] : '';
-            }
+        foreach ($this->manutencao as $col => $data) {
+            $data = explode('|', $data);
+            $this->Dado[$col] = isset($this->Dado[$col]) ? $this->Dado[$col] : '';
         }
+    }
+
+    protected function setLista()
+    {
+        $ordem = 0;
+        foreach ($this->listagem as $col => $data) {
+            $data = explode('|', $data);
+
+            foreach ($data as $dt) {
+
+                //sort
+                if (substr($dt, 0, 4) == 'sort') {
+                    $sort = explode(':', $dt)[1];
+
+                    //sort no
+                    if ($sort == 'no') {
+                        $this->datatableNoSort[] = $ordem;
+                    }
+
+                    //sort default
+                    if ($sort == 'default') {
+                        $this->datatableSortDefalt = $ordem;
+                    }
+                }
+            }
+
+            $this->datatable[] = $col;
+            $this->datatableTh .= "<th>$data[0]</th>";
+            $ordem++;
+        }
+
+
         $this->datatableNoSort[] = count($this->datatable);
         $this->datatableTh .= "<th>Ações</th>";
     }
 
-    protected function getMsgLinha($number,$msg_padrao = 'afetar')
+    protected function getMsgLinha($number, $msg_padrao = 'afetar')
     {
         if ($number <= 1) {
             return "$number $this->descricao_singular {$this->msg_padrao[$msg_padrao]}";
         }
         return "$number $this->descricao {$this->msg_padrao[$msg_padrao]}s";
-        
     }
 
     protected function getDadosValida($DADOS)
@@ -188,21 +201,16 @@ class Controller extends Api
         $erros = [];
         $campo = [];
 
-        foreach ($this->estrutura as $col => $dados) {
+        foreach ($this->manutencao as $col => $data) {
+            $data = explode('|', $data);
 
-            //Sem params não é para manutenção
-            if (!isset($dados['params'])) {
-                continue;
-            }
-
-            $params = explode('|', $dados['params']);
             $campo[$col] = isset($DADOS[$col]) ? $DADOS[$col] : null;
             $campoValor = reticencias(trim($campo[$col]), 10);
-            foreach ($params as $param) {
+            foreach ($data as $param) {
 
                 //required
                 if ($param == 'required' && empty(trim($campo[$col]))) {
-                    $erros[] = "Campo '$dados[descricao]' é obrigatório";
+                    $erros[] = "Campo '$data[0]' é obrigatório";
                     break;
                 }
 
@@ -213,14 +221,22 @@ class Controller extends Api
 
                 //number
                 if ($param == 'numeric' && !is_numeric($campo[$col])) {
-                    $erros[] = "Campo '$dados[descricao]' ($campoValor) precisa ser numérico";
+                    $erros[] = "Campo '$data[0]' ($campoValor) precisa ser numérico";
                 }
 
                 //max
                 if (substr($param, 0, 3) == 'max') {
                     $max = explode(':', $param)[1];
                     if (strlen($campo[$col]) > $max) {
-                        $erros[] = "Campo '$dados[descricao]' ($campoValor) é maior que o permitido. Informe até $max caracteres.";
+                        $erros[] = "Campo '$data[0]' ($campoValor) é maior que o permitido. Informe até $max caractere(s).";
+                    }
+                }
+
+                //min
+                if (substr($param, 0, 3) == 'min') {
+                    $min = explode(':', $param)[1];
+                    if (strlen($campo[$col]) < $min) {
+                        $erros[] = "Campo '$data[0]' ($campoValor) é menor que o permitido. Informe no mínimo $min caractere(s).";
                     }
                 }
 
@@ -228,7 +244,7 @@ class Controller extends Api
                 if (substr($param, 0, 4) == 'date') {
                     $dateFormat = explode(':', $param)[1];
                     if (!dataValida($campo[$col], $dateFormat)) {
-                        $erros[] = "Campo '$dados[descricao]' ($campoValor) não é uma data válida. Defina no formato $dateFormat.";
+                        $erros[] = "Campo '$data[0][descricao]' ($campoValor) não é uma data válida. Defina no formato $dateFormat.";
                     }
                 }
             }
@@ -248,7 +264,7 @@ class Controller extends Api
     private function setMsgPadrao()
     {
         $this->msg_padrao['execucao'] = 'Não executou! Tente novamente. Se persistir entre em contato.';
-        
+
         if ($this->modulo_masculino) {
             $this->msg_padrao['incluir'] = 'incluído';
             $this->msg_padrao['alterar'] = 'alterado';

@@ -1,14 +1,12 @@
-
-
-
-
-
+<!-- title -->
 <h1>
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form_incluir_<?= $this->modulo ?>">+</button>    
-
-<?= $this->descricao ?>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_form_incluir_<?= $this->modulo ?>">
+        +
+    </button>
+    <?= $this->descricao ?>
 </h1>
 
+<!-- title -->
 <?= $this->msg ?>
 
 <!-- table -->

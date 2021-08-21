@@ -11,70 +11,47 @@ class Pessoa extends Controller
     //Cidade
     protected $CidadeDados = [];
 
-    //Estrutura
-    protected $estrutura = [
+    //manutencao
+    protected $manutencao = [
+
+        //PrimeiroNome
+        'PrimeiroNome' => 'Primeiro Nome|required|trim|max:255|min:3',
+
+        //SegundoNome
+        'SegundoNome' => 'Segundo Nome|required|trim|max:255|min:3',
+
+        //Endereco
+        'Endereco' => 'Endereço|required|trim|max:255|min:3',
+
+        //CidadeId
+        'CidadeId' => 'Cidade|required|numeric',
+
+        //DataNascimento
+        'DataNascimento' => 'Nascimento|required|date:Y-m-d',
+
+        //Status
+        'Status' => 'Status|required|numeric|max:1|min:1'
+    ];
+
+    protected $listagem = [
 
         //PessoaId
-        'PessoaId' => [
-            'descricao' => 'Id',
-            'datatable' => '0'
-        ],
+        'PessoaId' => 'Id',
 
-        //PrimeiroNome - Manuntenção
-        'PrimeiroNome' => [
-            'descricao' => 'Primeiro Nome',
-            'params'    => 'required|trim|max:255'
-        ],
+        //PrimeiroNome
+        'NomeSobrenome' =>  'Nome|sort:default',
 
-        //PrimeiroNome - Manuntenção
-        'NomeSobrenome' => [
-            'descricao' => 'Nome',
-            'datatable' => '1|default'
-        ],
+        //DataNascimento
+        'DataNascimento' => 'Nascimento|sort:no',
 
-        //SegundoNome - Manuntenção
-        'SegundoNome' => [
-            'descricao' => 'Segundo Nome',
-            'params'    => 'required|trim|max:255'
-        ],
-
-        //DataNascimento - Manuntenção
-        'DataNascimento' => [
-            'descricao' => 'Nascimento',
-            'params' => 'required|date:Y-m-d',
-            'datatable' => '2|no-sort'
-        ],
-
-        //Endereco - Manuntenção
-        'Endereco' => [
-            'descricao' => 'Endereço',
-            'params'    => 'required|trim|max:255',
-            'datatable' => '3'
-        ],
+        //Endereco
+        'Endereco' => 'Endereço',
 
         //CidadeDesc
-        'CidadeDesc' => [
-            'descricao' => 'Cidade',
-            'datatable' => '4'
-        ],
-
-        //CidadeId - Manuntenção
-        'CidadeId' => [
-            'descricao' => 'Cidade',
-            'params'    => 'required|numeric'
-        ],
-
-        //Status - Manuntenção
-        'Status' => [
-            'descricao' => 'Status',
-            'params'    => 'required|numeric|max:1'
-        ],
+        'CidadeDesc' => 'Cidade',
 
         //StatusDesc
-        'StatusDesc' => [
-            'descricao' => 'Status',
-            'datatable' => '5'
-        ]
+        'StatusDesc' => 'Status',
     ];
 
     public function list()
@@ -82,5 +59,4 @@ class Pessoa extends Controller
         $this->CidadeDados = $this->Model->getList('Cidade');
         parent::list();
     }
-
 }

@@ -8,8 +8,7 @@ class PessoaModel extends Model
                CONCAT(P.PrimeiroNome,' ',P.SegundoNome) AS NomeSobrenome,
                DATE_FORMAT(P.DataNascimento, '%d/%m/%Y') AS DataNascimento,
                P.Endereco,
-               CASE WHEN P.Status = '1' THEN 'Ativo' 
-                                        ELSE 'Inativo' 
+               CASE WHEN P.Status = '1' THEN 'Ativo' ELSE 'Inativo' 
                END AS StatusDesc,
                C.CidadeDesc
           FROM Pessoa P
@@ -28,6 +27,4 @@ class PessoaModel extends Model
             FROM Pessoa P
            WHERE P.PessoaId = :PessoaId
     ';
-
-    
 }

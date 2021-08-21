@@ -11,9 +11,8 @@ class Api
 
     public function dataTable()
     {
-
-        //dados
-        $this->setDado();
+        //lista
+        $this->setLista();
 
         //Post required
         $post = ['draw', 'start', 'length', 'order', 'columns', 'search'];
@@ -42,7 +41,7 @@ class Api
 
         //Search 
         $busca = [];
-        foreach ($this->datatable as $col) {
+        foreach ($this->datatable as $col => $data) {
             $busca[] = " $col LIKE CONCAT('%',:searchValue,'%') ";
         }
         $searchQuery = '';
