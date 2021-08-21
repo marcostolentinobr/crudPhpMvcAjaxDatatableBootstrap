@@ -2,22 +2,12 @@
 
 class Api
 {
-    public function dados()
-    {
 
-        //all
-        $where = [$this->chave => CHAVE];
-        $all = $this->Model->list($where);
-        $this->Dado = (isset($all['dados'][0]) ? $all['dados'][0] : []);
-
-        //erro
-        if ($all['erro']) {
-            exit(json_encode(['erro' => [$all['erro']]]));
-        }
-
-        //list
-        exit(json_encode($this->Dado));
-    }
+    //datatable
+    protected $datatable;
+    protected $datatableTh;
+    protected $datatableNoSort = [];
+    protected $datatableSortDefalt = 0;
 
     public function dataTable()
     {
@@ -102,12 +92,11 @@ class Api
                     <button class='btn btn-secondary dropdown-toggle' data-bs-toggle='dropdown'></button>
                     <ul class='dropdown-menu' style='padding: 0'>
                         <a class='dropdown-item' href='$this->modulo/edit/{$row[$this->chave]}'>Editar</a>
-                        <a class='dropdown-item' href='$this->modulo/delete/{$row[$this->chave]}'>Excluir</a>
+                        <a class='dropdown-item' style='cursor: pointer'onclick='excluir({$row[$this->chave]})'>Excluir</a>
                     </ul>
                 </div>
             ";
         }
-        // <li><hr class='dropdown-divider'></li>
 
         ## Response
         $response = [
@@ -118,5 +107,41 @@ class Api
         ];
 
         exit(json_encode($response));
+    }
+
+    public function excluir()
+    {
+
+        //delete
+        $where = [$this->chave => CHAVE];
+        $exec =  $this->Model->delete($this->tabela, $where);
+
+        //erro
+        if ($exec['erro']) {
+            exit(json_encode([
+                'status' => 0,
+                'title' => $this->modulo,
+                'msg' => $this->msg_padrao['execucao'],
+                'details' => $this->msg_padrao['erro']
+            ]));
+        }
+
+        //Não encontrado
+        elseif ($exec['prep']->rowCount() == 0) {
+            exit(json_encode([
+                'status' => 0,
+                'title' => $this->modulo,
+                'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para excluir",
+                'details' => $this->getMsgLinhaAfetada(0)
+            ]));
+        }
+
+        //Sucesso
+        exit(json_encode([
+            'status' => 1,
+            'title' => $this->modulo,
+            'msg' => "$this->descricao_singular {$this->msg_padrao['excluir']} com sucesso!",
+            'details' => $this->getMsgLinhaAfetada($exec['prep']->rowCount())
+        ]));
     }
 }

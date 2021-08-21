@@ -18,12 +18,6 @@ class Controller extends Api
     //Instancia
     protected $Model;
 
-    //datatable
-    protected $datatable;
-    protected $datatableTh;
-    protected $datatableNoSort = [];
-    protected $datatableSortDefalt = 0;
-
     public function __construct()
     {
 
@@ -92,41 +86,7 @@ class Controller extends Api
         $this->setMsg($msg, $style, $obs);
         $this->list();
     }
-
-
-
-    public function delete()
-    {
-
-        //delete
-        $where = [$this->chave => CHAVE];
-        $exec =  $this->Model->delete($this->tabela, $where);
-
-        //erro
-        if ($exec['erro']) {
-            $this->setMsg($this->msg_padrao['execucao'], 'danger', $exec['erro']);
-        }
-        //Não encontrado
-        elseif ($exec['prep']->rowCount() == 0) {
-            $this->setMsg(
-                "$this->descricao_singular não {$this->msg_padrao['encontrar']} para excluir",
-                'danger',
-                $this->msg_padrao['nenhuma']
-            );
-        }
-        //Sucesso
-        else {
-            $this->setMsg(
-                "$this->descricao_singular {$this->msg_padrao['excluir']} com sucesso!",
-                'success',
-                $this->getMsgLinhaAfetada($exec['prep']->rowCount())
-            );
-        }
-
-        //list
-        $this->list();
-    }
-
+    
     public function edit()
     {
 
@@ -144,7 +104,7 @@ class Controller extends Api
             $this->setMsg(
                 "$this->descricao_singular não {$this->msg_padrao['encontrar']} para editar",
                 'danger',
-                $this->msg_padrao['nenhuma']
+                $this->getMsgLinhaAfetada(0)
             );
         }
         //Sucesso
@@ -183,7 +143,7 @@ class Controller extends Api
             elseif ($exec['prep']->rowCount() == 0) {
                 $msg = "$this->descricao_singular não {$this->msg_padrao['alterar']}, nada modificado.";
                 $style = 'danger';
-                $obs = $this->msg_padrao['nenhuma'];
+                $obs = $this->getMsgLinhaAfetada(0);
             }
             //Sucesso
             else {
@@ -247,7 +207,11 @@ class Controller extends Api
 
     protected function getMsgLinhaAfetada($number)
     {
-        return "$number linhas afetada(s)";
+        if ($number <= 1) {
+            return "$number $this->descricao_singular {$this->msg_padrao['afetar']}";
+        }
+        return "$number $this->descricao {$this->msg_padrao['afetar']}s";
+        
     }
 
     protected function getDadosValida($DADOS)
@@ -315,18 +279,19 @@ class Controller extends Api
     private function setMsgPadrao()
     {
         $this->msg_padrao['execucao'] = 'Não executou! Tente novamente. Se persistir entre em contato.';
-        $this->msg_padrao['nenhuma'] = 'Nenhuma linha encontrada.';
-
+        
         if ($this->modulo_masculino) {
             $this->msg_padrao['incluir'] = 'incluído';
             $this->msg_padrao['alterar'] = 'alterado';
             $this->msg_padrao['encontrar'] = 'encontrado';
             $this->msg_padrao['excluir'] = 'excluído';
+            $this->msg_padrao['afetar'] = 'afetado';
         } else {
             $this->msg_padrao['incluir'] = 'incluída';
             $this->msg_padrao['alterar'] = 'alterada';
             $this->msg_padrao['encontrar'] = 'encontrada';
             $this->msg_padrao['excluir'] = 'excluída';
+            $this->msg_padrao['afetar'] = 'afetada';
         }
     }
 }

@@ -22,4 +22,10 @@ class Model extends Conexao
         $Model = "{$modulo}Model";
         return new $Model();
     }
+
+    public function getList($modulo)
+    {
+        $Model = $this->instancia($modulo);
+        return $Model->list()['dados'];
+    }
 }

@@ -2,8 +2,8 @@
 
 class Pessoa extends Controller
 {
-    protected $descricao = 'Usuários';
-    protected $descricao_singular = 'Usuário';
+    public $descricao = 'Usuários';
+    public $descricao_singular = 'Usuário';
     protected $modulo_masculino = true;
     protected $chave = 'PessoaId';
     protected $tabela = 'Pessoa';
@@ -79,7 +79,7 @@ class Pessoa extends Controller
 
     public function list()
     {
-        $this->CidadeDados = $this->Model->getCidades();
+        $this->CidadeDados = $this->Model->getList('Cidade');
         parent::list();
     }
 

@@ -29,9 +29,5 @@ class PessoaModel extends Model
            WHERE P.PessoaId = :PessoaId
     ';
 
-    public function getCidades()
-    {
-        $ModelCidade = $this->instancia('Cidade');
-        return $ModelCidade->list()['dados'];
-    }
+    
 }
