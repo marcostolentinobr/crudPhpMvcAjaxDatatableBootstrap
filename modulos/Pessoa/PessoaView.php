@@ -81,7 +81,7 @@
     //editar
     function editar(chave) {
         $.ajax({
-            type: 'GET',
+            type: 'PUT',
             url: 'api/<?= $this->modulo ?>/editar/' + chave,
             success: function(data) {
                 var data = $.parseJSON(data);
@@ -95,7 +95,6 @@
                     //modal
                     $('#modal_form_incluir_<?= $this->modulo ?> .modal-title').html(data.title);
                     $('#modal_form_incluir_<?= $this->modulo ?>').attr('action', '<?= $this->modulo ?>/update');
-                    $('#modal_form_incluir_<?= $this->modulo ?>').attr('method', 'PUT');
                     $('#modal_form_incluir_<?= $this->modulo ?> .btn-success').html('Alterar');
                     var modal = new bootstrap.Modal(document.getElementById('modal_form_incluir_<?= $this->modulo ?>'));
                     modal.show();
@@ -123,7 +122,6 @@
         $('#modal_acao .modal-title').html('Incluir <?= $this->descricao_singular ?>');
         var form = $('#form_<?= $this->modulo ?>');
         form.attr('action', '<?= $this->modulo ?>/insert');
-        form.attr('method', 'POST');
         form.trigger('reset');
         $('#form_<?= $this->modulo ?> .btn-success').html('Incluir');
     })

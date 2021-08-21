@@ -181,6 +181,5 @@ class Api
             'msg' => $this->getMsgLinha(0, 'encontrar'),
             'detail' => $this->Dado
         ]));
-
     }
 }
