@@ -1,16 +1,10 @@
-<!-- Button trigger modal -->
-
-<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_acao">+</button>
-<br>
-
-
-<div class="modal fade" id="modal_acao" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<form class="modal fade was-validated" data-bs-backdrop="static" id="modal_form_incluir_<?= $this->modulo ?>" action="<?= $this->modulo ?>/<?= $this->acao ?>" method="POST">
     <div class="modal-dialog">
-
-        <!-- form -->
-        <form class="modal-content was-validated" method="POST" id="form_<?= $this->modulo ?>" action="<?= $this->modulo ?>/<?= $this->acao ?>">
+        <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" ><?= "Incluir $this->descricao_singular" ?> </h5>
+
+                <!-- title -->
+                <h5 class="modal-title"><?= "Incluir $this->descricao_singular" ?> </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -80,7 +74,6 @@
                     </div>
 
                 </div>
-
             </div>
 
             <!-- btn -->
@@ -89,8 +82,6 @@
                 <button class="btn btn-success">Incluir</button>
             </div>
 
-        </form>
-
-
+        </div>
     </div>
-</div>
+</form>

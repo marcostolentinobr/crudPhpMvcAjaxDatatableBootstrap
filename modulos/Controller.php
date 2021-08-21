@@ -46,6 +46,7 @@ class Controller extends Api
         $this->setDado();
 
         //View
+        $this->addPagina('form');
         require_once RAIZ . "/modulos/$this->modulo/{$this->modulo}View.php";
     }
 
