@@ -51,7 +51,7 @@ class Pessoa extends Controller
         'CidadeDesc' => 'Cidade',
 
         //StatusDesc
-        'StatusDesc' => 'Status',
+        'Status' => 'Status',
     ];
 
     public function list()

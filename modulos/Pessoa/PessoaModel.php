@@ -8,12 +8,12 @@ class PessoaModel extends Model
                CONCAT(P.PrimeiroNome,' ',P.SegundoNome) AS NomeSobrenome,
                DATE_FORMAT(P.DataNascimento, '%d/%m/%Y') AS DataNascimento,
                P.Endereco,
-               CASE WHEN P.Status = '1' THEN 'Ativo' ELSE 'Inativo' 
-               END AS StatusDesc,
+               CASE WHEN P.Status = '1' THEN 'Ativo' ELSE 'Inativo' END AS Status,
                C.CidadeDesc
           FROM Pessoa P
           JOIN Cidade C
             ON C.CidadeId = P.CidadeId
+      ORDER BY NomeSobrenome
     ";
 
     protected $select_edit = '

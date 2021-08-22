@@ -10,7 +10,7 @@
 <?= $this->msg ?>
 
 <!-- table -->
-<table id="<?= $this->modulo ?>Datatable" class="display" class="display" style="width:100%" >
+<table id="<?= $this->modulo ?>Datatable" class="display" class="display" style="width:100%">
     <thead>
         <?= $this->datatableTh ?>
     </thead>
@@ -28,7 +28,7 @@
         //datatable
         datatable = $('#<?= $this->modulo ?>Datatable').DataTable({
             order: [
-                [<?= $this->datatableSortDefalt ?>, 'desc']
+                [<?= $this->datatableSortDefalt ?>, 'asc']
             ],
             columnDefs: [{
                 orderable: false,
@@ -95,7 +95,7 @@
                     //modal
                     $('.modal-title', modal_form_incluir).html(data.title);
                     $(modal_form_incluir).attr('action', '<?= $this->modulo ?>/update');
-                    $('.modal-title .btn-success', modal_form_incluir).html('Alterar');
+                    $('.btn-success', modal_form_incluir).html('Alterar');
                     var modal = new bootstrap.Modal(modal_form_incluir);
                     modal.show();
 

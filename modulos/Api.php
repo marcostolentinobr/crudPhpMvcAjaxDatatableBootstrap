@@ -122,7 +122,7 @@ class Api
                 'status' => 0,
                 'title' => "Excluir $this->modulo",
                 'msg' => $this->msg_padrao['execucao'],
-                '' => $this->msg_padrao['erro']
+                'detail' => $exec['erro']
             ]));
         }
 

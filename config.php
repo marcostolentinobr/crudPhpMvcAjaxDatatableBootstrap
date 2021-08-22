@@ -16,7 +16,7 @@ define('DB_CHARSET', 'utf8mb4');
 define('TITULO', 'SENSEDIA');
 
 //Functions
-require_once __DIR__. '/libs/functions.php';
+require_once __DIR__ . '/libs/functions.php';
 
 //Inicia
 init();
