@@ -42,7 +42,7 @@ class Api
         //Search 
         $busca = [];
         foreach ($this->datatable as $col => $data) {
-            $busca[] = " $col LIKE CONCAT('%',:searchValue,'%') ";
+            $busca[] = " $data LIKE CONCAT('%',:searchValue,'%') ";
         }
         $searchQuery = '';
         if ($searchValue != '') {

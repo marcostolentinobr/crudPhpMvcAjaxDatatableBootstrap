@@ -6,3 +6,7 @@
 
 *Erros de campos, acrescentar os erros em labels nos campos e focar no proximo erro
 *colocar modal para alterar, incluir
+*Confirmar exclusão
+*MUltipla exclusão
+*Colcoar layout em confirmações de ações
+*Colocar layout em modal

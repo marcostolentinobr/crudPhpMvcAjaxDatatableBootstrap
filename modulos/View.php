@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-1.10.25/r-2.2.9/datatables.min.css" />
 <script src="https://cdn.datatables.net/v/dt/dt-1.10.25/r-2.2.9/datatables.min.js"></script>
 
-<!-- modal msg -->
+<!-- modal_msg -->
 <div class="modal fade" id="modal_msg" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -28,7 +28,7 @@
         </div>
     </div>
 </div>
-<!-- fim modal msg -->
+<!-- fim modal_msg -->
 
 <?php
 
