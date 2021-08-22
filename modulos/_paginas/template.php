@@ -10,7 +10,7 @@
 <?= $this->msg ?>
 
 <!-- table -->
-<table id='<?= $this->modulo ?>Datatable'>
+<table id="<?= $this->modulo ?>Datatable" class="display" class="display" style="width:100%" >
     <thead>
         <?= $this->datatableTh ?>
     </thead>
@@ -40,6 +40,7 @@
             searchDelay: 350,
             processing: true,
             serverSide: true,
+            responsive: true,
             serverMethod: 'post',
             ajax: {
                 url: 'api/<?= $this->modulo ?>/datatable'
@@ -116,7 +117,6 @@
     //fim editar
 
     //btn reset incluir
-
     modal_form_incluir.addEventListener('hide.bs.modal', function() {
         $('.modal-title', modal_form_incluir).html('Incluir <?= $this->descricao_singular ?>');
         $(modal_form_incluir).attr('action', '<?= $this->modulo ?>/insert');

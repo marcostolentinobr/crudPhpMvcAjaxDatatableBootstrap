@@ -160,6 +160,7 @@ class Controller extends Api
         foreach ($this->listagem as $col => $data) {
             $data = explode('|', $data);
 
+            $style = [];
             foreach ($data as $dt) {
 
                 //sort
@@ -176,16 +177,20 @@ class Controller extends Api
                         $this->datatableSortDefalt = $ordem;
                     }
                 }
+
+                if (substr($dt, 0, 5) == 'width') {
+                    $style[] = $dt;
+                }
             }
 
             $this->datatable[] = $col;
-            $this->datatableTh .= "<th>$data[0]</th>";
+            $this->datatableTh .= "<th style='" . implode(', ', $style) . "'>$data[0]</th>";
             $ordem++;
         }
 
 
         $this->datatableNoSort[] = count($this->datatable);
-        $this->datatableTh .= "<th>Ações</th>";
+        $this->datatableTh .= "<th style='width: 1%'>Ações</th>";
     }
 
     protected function getMsgLinha($number, $msg_padrao = 'afetar')

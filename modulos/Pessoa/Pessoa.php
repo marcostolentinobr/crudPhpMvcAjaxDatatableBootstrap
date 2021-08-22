@@ -36,7 +36,7 @@ class Pessoa extends Controller
     protected $listagem = [
 
         //PessoaId
-        'PessoaId' => 'Id',
+        'PessoaId' => 'Id|width:1%',
 
         //PrimeiroNome
         'NomeSobrenome' =>  'Nome|sort:default',
