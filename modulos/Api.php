@@ -88,7 +88,7 @@ class Api
                 $data[$id][] = $row[$col];
             }
             $data[$id][] = "
-                <div class='dropdown' style='text-align: center'>
+                <div class='dropdown'>
                     <button class='btn btn-secondary dropdown-toggle' data-bs-toggle='dropdown'></button>
                     <ul class='dropdown-menu' style='padding: 0'>
                         <a class='dropdown-item' style='cursor: pointer' onclick='editar({$row[$this->chave]})'>Editar</a>
