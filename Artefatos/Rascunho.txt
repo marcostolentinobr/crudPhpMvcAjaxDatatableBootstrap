@@ -10,3 +10,8 @@
 *MUltipla exclusão
 *Colcoar layout em confirmações de ações
 *Colocar layout em modal
+
+retorno em api apenas datas e no retorno que se trata, exemplo incluir ocom implode li
+
+
+*retorno de erro acrescentar a baixo do campo

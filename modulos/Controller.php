@@ -57,43 +57,6 @@ class Controller extends Api
         require_once RAIZ . "/modulos/_paginas/template.php";
     }
 
-    public function insert()
-    {
-
-        //dados
-        $DADOS = $this->getDadosValida($_POST);
-
-        //erros de campo
-        if ($DADOS['erros']) {
-            $msg = '<li>' . implode('<li>', $DADOS['erros']);
-            $style = 'danger';
-            $obs = 'Verifique os dados';
-        }
-        //sem erros de campo
-        else {
-
-            //exec
-            $exec =  $this->Model->insert($this->tabela, $DADOS['dados']);
-
-            //erro
-            if ($exec['erro']) {
-                $msg = $this->msg_padrao['execucao'];
-                $style = 'danger';
-                $obs = $exec['erro'];
-            }
-            //sucesso
-            else {
-                $msg = "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!";
-                $style = 'success';
-                $obs = $this->getMsgLinha($exec['prep']->rowCount());
-            }
-        }
-
-        //list
-        $this->setMsg($msg, $style, $obs);
-        $this->list();
-    }
-
     public function update()
     {
 

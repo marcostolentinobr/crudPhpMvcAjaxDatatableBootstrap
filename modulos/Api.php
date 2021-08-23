@@ -109,6 +109,51 @@ class Api
         exit(json_encode($response));
     }
 
+
+    public function insert()
+    {
+
+        //dados
+        $DADOS = $this->getDadosValida($_POST);
+
+        //erros de campo
+        if ($DADOS['erros']) {
+            exit(json_encode([
+                'status' => 0,
+                'title' => "Incluir $this->modulo",
+                'msg' => 'Verifique os dados',
+                'detail' => '<li>' . implode('</li><li>', $DADOS['erros']) . '</li>',
+                'campo_erros' => $DADOS['erros']
+            ]));
+        }
+        //sem erros de campo
+        else {
+
+            //exec
+            $exec =  $this->Model->insert($this->tabela, $DADOS['dados']);
+
+            //erro
+            if ($exec['erro']) {
+
+                exit(json_encode([
+                    'status' => 0,
+                    'title' => "Incluir $this->modulo",
+                    'msg' => $this->msg_padrao['execucao'],
+                    'detail' => $exec['erro']
+                ]));
+            }
+            //sucesso
+            else {
+                exit(json_encode([
+                    'status' => 1,
+                    'title' => "Incluir $this->modulo",
+                    'msg' => "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!",
+                    'detail' => $this->getMsgLinha($exec['prep']->rowCount())
+                ]));
+            }
+        }
+    }
+
     public function excluir()
     {
 

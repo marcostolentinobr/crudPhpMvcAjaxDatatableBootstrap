@@ -10,7 +10,7 @@
 <script src="https://cdn.datatables.net/v/dt/dt-1.10.25/r-2.2.9/datatables.min.js"></script>
 
 <!-- modal_msg -->
-<div class="modal fade" id="modal_msg" data-bs-backdrop="static">
+<div class="modal fade" id="modal_msg" data-bs-backdrop="static" style="z-index: 1056;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
