@@ -16,3 +16,4 @@
 *padronizar funcoes na manutenção em js
 *utilizar docker
 *criar um loading
+*utilizar PHPUnit
