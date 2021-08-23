@@ -1,4 +1,4 @@
-<form class="modal fade was-validated" data-bs-backdrop="static" id="modal_form_<?= $this->modulo ?>" method="POST" onsubmit="incluir(this)">
+<form class="modal fade" data-bs-backdrop="static" id="modal_form_<?= $this->modulo ?>" method="POST" onsubmit="incluir(this)">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

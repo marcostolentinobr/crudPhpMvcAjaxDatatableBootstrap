@@ -1,17 +1,20 @@
-*Criar class view mais bem elaborada com metodo datatable tirando ele do controller
+*Criar class view mais bem elaborada com metodo datatable tirando ele do controller/api
 *Talvez o controller seja o autoload, sem ser extension de outro
-*Validar min 3 caracteres nome, sobrenome, endereço no php, apenas letra em nome e sobre nome
-*reduzir ao maximo o jquery para apenas um vanila
+*Fazer validador apenas letra para validar no php
+*Reduzir o jquery para js puro ao máximo, e verifcar sobre datatable sem jquery
 *format data na datatable para poder ordenar
-
-*Erros de campos, acrescentar os erros em labels nos campos e focar no proximo erro
-*colocar modal para alterar, incluir
+*Erros de campos, acrescentar os erros em labels nos campos e focar no proximo erro (was-validated no form)
+*Focus no primeiro campo assim que abre modal
 *Confirmar exclusão
 *MUltipla exclusão
-*Colcoar layout em confirmações de ações
-*Colocar layout em modal
+*colocar layout em modal, warning, danger, sucess, primary ...
+*Retorno da api apenas dados, remover html como li nos erros, fazer li na view
+*Criar rotas permitidas, verificar slim framework
+*usar verbos, post,get,put, delet
+*usar  de uma melhor forma
+*tratar erros do datatable se vier
+*ver sobre outros recursos do datatable
 
-retorno em api apenas datas e no retorno que se trata, exemplo incluir ocom implode li
+*padrronizar funcoes js
 
-
-*retorno de erro acrescentar a baixo do campo
+*não mesclar retorno json com html

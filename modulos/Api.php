@@ -11,8 +11,6 @@ class Api
 
     public function dataTable()
     {
-        //lista
-        $this->setLista();
 
         //Post required
         $post = ['draw', 'start', 'length', 'order', 'columns', 'search'];
@@ -38,6 +36,9 @@ class Api
         $columnName = $_POST['columns'][$columnIndex]['data']; // Column name
         $columnSortOrder = $_POST['order'][0]['dir']; // asc or desc
         $searchValue = $_POST['search']['value']; // Search value
+
+        //lista
+        $this->setLista();
 
         //Search 
         $busca = [];
@@ -109,7 +110,6 @@ class Api
         exit(json_encode($response));
     }
 
-
     public function insert()
     {
 
@@ -129,12 +129,11 @@ class Api
         //sem erros de campo
         else {
 
-            //exec
+            //insert
             $exec =  $this->Model->insert($this->tabela, $DADOS['dados']);
 
             //erro
             if ($exec['erro']) {
-
                 exit(json_encode([
                     'status' => 0,
                     'title' => "Incluir $this->modulo",
@@ -142,21 +141,19 @@ class Api
                     'detail' => $exec['erro']
                 ]));
             }
+
             //sucesso
-            else {
-                exit(json_encode([
-                    'status' => 1,
-                    'title' => "Incluir $this->modulo",
-                    'msg' => "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!",
-                    'detail' => $this->getMsgLinha($exec['prep']->rowCount())
-                ]));
-            }
+            exit(json_encode([
+                'status' => 1,
+                'title' => "Incluir $this->modulo",
+                'msg' => "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!",
+                'detail' => $this->getMsgLinha($exec['prep']->rowCount())
+            ]));
         }
     }
 
     public function excluir()
     {
-
         //delete
         $where = [$this->chave => CHAVE];
         $exec =  $this->Model->delete($this->tabela, $where);
@@ -170,7 +167,6 @@ class Api
                 'detail' => $exec['erro']
             ]));
         }
-
         //Não encontrado
         elseif ($exec['prep']->rowCount() == 0) {
             exit(json_encode([
@@ -192,7 +188,6 @@ class Api
 
     public function editar()
     {
-
         //all
         $where = [$this->chave => CHAVE];
         $all = $this->Model->list($where);
@@ -207,7 +202,6 @@ class Api
                 'detail' => $all['erro']
             ]));
         }
-
         //Não encontrado
         elseif (count($this->Dado) == 0) {
             exit(json_encode([
@@ -225,5 +219,57 @@ class Api
             'msg' => $this->getMsgLinha(0, 'encontrar'),
             'detail' => $this->Dado
         ]));
+    }
+
+    public function update()
+    {
+
+        //dados
+        $DADOS = $this->getDadosValida($_POST);
+
+        //erros de campo
+        if ($DADOS['erros']) {
+            exit(json_encode([
+                'status' => 0,
+                'title' => "Alterar $this->modulo",
+                'msg' => 'Verifique os dados',
+                'detail' => '<li>' . implode('</li><li>', $DADOS['erros']) . '</li>',
+                'campo_erros' => $DADOS['erros']
+            ]));
+        }
+        //sem erros de campo
+        else {
+
+            //update
+            $where = [$this->chave => $_POST[$this->chave]];
+            $exec =  $this->Model->update($this->tabela, $DADOS['dados'], $where);
+
+            //erro
+            if ($exec['erro']) {
+                exit(json_encode([
+                    'status' => 0,
+                    'title' => "Alterar $this->modulo",
+                    'msg' => $this->msg_padrao['execucao'],
+                    'detail' => $exec['erro']
+                ]));
+            }
+            //Nada modificado
+            elseif ($exec['prep']->rowCount() == 0) {
+                exit(json_encode([
+                    'status' => 0,
+                    'title' => "Alterar $this->modulo",
+                    'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para alterar",
+                    'detail' => $this->getMsgLinha(0)
+                ]));
+            }
+
+            //Sucesso
+            exit(json_encode([
+                'status' => 1,
+                'title' => "Alterar $this->modulo",
+                'msg' => "$this->descricao_singular {$this->msg_padrao['alterar']} com sucesso!",
+                'detail' => $this->getMsgLinha($exec['prep']->rowCount())
+            ]));
+        }
     }
 }

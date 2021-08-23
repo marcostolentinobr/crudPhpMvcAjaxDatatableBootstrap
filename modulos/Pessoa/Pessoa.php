@@ -54,9 +54,9 @@ class Pessoa extends Controller
         'Status' => 'Status',
     ];
 
-    public function list()
+    protected function view()
     {
         $this->CidadeDados = $this->Model->getList('Cidade');
-        parent::list();
+        parent::view();
     }
 }

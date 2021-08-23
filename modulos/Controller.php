@@ -2,20 +2,15 @@
 
 class Controller extends Api
 {
-    //Parametros
     protected $modulo;
-    protected $acao = 'insert';
-    protected $msg;
-    protected $msg_padrao = [];
-
-    //Para edição
     protected $Dado = [];
-
-    //Para listagem
     protected $Dados = [];
-
-    //Instancia
     protected $Model;
+
+    //msg_padrao
+    protected $msg_padrao = [
+        'execucao' => 'Não executou! Tente novamente. Se persistir entre em contato.'
+    ];
 
     public function __construct()
     {
@@ -23,28 +18,21 @@ class Controller extends Api
         //Modulo
         $this->modulo = get_called_class();
 
-        //Model
+        //ModelMODULO_INICIAL
         $model = $this->modulo . 'Model';
         $this->Model = new $model();
 
         //Msg
         $this->setMsgPadrao();
 
+        //Sem método ir para view
         if (!METODO) {
-            $this->list();
+            $this->view();
         }
     }
 
-    public function list()
+    protected function view()
     {
-        //all
-        $all =  $this->Model->list();
-        $this->Dados = $all['dados'];
-
-        //erro
-        if ($all['erro']) {
-            $this->setMsg($this->msg_padrao['execucao'], 'danger', $all['erro']);
-        }
 
         //dado
         $this->setDado();
@@ -55,57 +43,6 @@ class Controller extends Api
         //View
         $this->addPagina('form');
         require_once RAIZ . "/modulos/_paginas/template.php";
-    }
-
-    public function update()
-    {
-
-        //dados
-        $DADOS = $this->getDadosValida($_POST);
-
-        //erros de campo
-        if ($DADOS['erros']) {
-            $msg = '<li>' . implode('<li>', $DADOS['erros']);
-            $style = 'danger';
-            $obs = 'Verifique os dados';
-        } else {
-
-            //update
-            $where = [$this->chave => $_POST[$this->chave]];
-            $exec =  $this->Model->update($this->tabela, $DADOS['dados'], $where);
-
-            //erro
-            if ($exec['erro']) {
-                $this->setMsg($this->msg_padrao['execucao'], 'danger', $exec['erro']);
-            }
-            //Nada modificado
-            elseif ($exec['prep']->rowCount() == 0) {
-                $msg = "$this->descricao_singular não {$this->msg_padrao['alterar']}, nada modificado.";
-                $style = 'danger';
-                $obs = $this->getMsgLinha(0);
-            }
-            //Sucesso
-            else {
-                $msg = "$this->descricao_singular {$this->msg_padrao['alterar']} com sucesso!";
-                $style = 'success';
-                $obs = $this->getMsgLinha($exec['prep']->rowCount());
-            }
-        }
-
-        //list
-        $this->setMsg($msg, $style, $obs);
-        $this->list();
-    }
-
-    //mensagem 
-    public function setMsg($msg, $style, $obs)
-    {
-        $this->msg = " 
-            <div class='alert alert-$style'>
-                $msg<br>
-                <small style='font-size: 10px; color: silver'>$obs</small>
-            </div>
-        ";
     }
 
     protected function setDado()
@@ -141,6 +78,7 @@ class Controller extends Api
                     }
                 }
 
+                //style width
                 if (substr($dt, 0, 5) == 'width') {
                     $style[] = $dt;
                 }
@@ -150,7 +88,6 @@ class Controller extends Api
             $this->datatableTh .= "<th style='" . implode(', ', $style) . "'>$data[0]</th>";
             $ordem++;
         }
-
 
         $this->datatableNoSort[] = count($this->datatable);
         $this->datatableTh .= "<th style='width: 1%'>Ações</th>";
@@ -231,8 +168,6 @@ class Controller extends Api
 
     private function setMsgPadrao()
     {
-        $this->msg_padrao['execucao'] = 'Não executou! Tente novamente. Se persistir entre em contato.';
-
         if ($this->modulo_masculino) {
             $this->msg_padrao['incluir'] = 'incluído';
             $this->msg_padrao['alterar'] = 'alterado';
