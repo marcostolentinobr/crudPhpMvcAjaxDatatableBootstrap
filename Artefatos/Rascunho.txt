@@ -13,8 +13,5 @@
 *usar verbos, post,get,put, delet
 *usar  de uma melhor forma
 *tratar erros do datatable se vier
-*ver sobre outros recursos do datatable
-
-*padrronizar funcoes js
-
-*não mesclar retorno json com html
+*padronizar funcoes na manutenção em js
+*utilizar docker
