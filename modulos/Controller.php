@@ -90,7 +90,7 @@ class Controller extends Api
         }
 
         $this->datatableNoSort[] = count($this->datatable);
-        $this->datatableTh .= "<th style='width: 1%'>Ações</th>";
+        $this->datatableTh .= "<th style='width: 1%'></th>";
     }
 
     protected function getMsgLinha($number, $msg_padrao = 'afetar')
