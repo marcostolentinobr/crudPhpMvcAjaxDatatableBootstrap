@@ -28,7 +28,7 @@
 <!-- fim modal_msg -->
 
 <!-- table -->
-<table id="<?= $this->modulo ?>Datatable" class="display" class="display" style="width:100%">
+<table id="<?= $this->modulo ?>Datatable" class="display" class="display cell-border" style="width:100%">
     <thead>
         <?= $this->datatableTh ?>
     </thead>
