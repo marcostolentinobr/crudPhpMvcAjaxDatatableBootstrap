@@ -7,7 +7,7 @@ class Api
     protected $datatable;
     protected $datatableTh;
     protected $datatableNoSort = [];
-    protected $datatableSortDefalt = 0;
+    protected $datatableSortDefault = 0;
 
     public function dataTable()
     {
@@ -55,7 +55,7 @@ class Api
         //Total number of records without filtering
         $totalRecords = $this->Model->all("
             SELECT COUNT(1) AS TOTAL 
-              FROM $this->tabela
+              FROM ({$this->Model->select}) TB
         ")['dados'][0]['TOTAL'];
 
         //Total number of record with filtering
@@ -63,9 +63,11 @@ class Api
             SELECT * 
               FROM ({$this->Model->select}) TB 
         ";
+
+        $sql = "$sql_padrao $searchQuery";
         $search_padrao = ($searchQuery ? [':searchValue' => $searchValue] : []);
         $records = $this->Model->all(
-            $sql_padrao . $searchQuery,
+            $sql,
             $search_padrao
         )['dados'];
         $totalRecordwithFilter = count($records);
@@ -77,6 +79,7 @@ class Api
             ORDER BY {$this->datatable[$columnName]} $columnSortOrder 
                LIMIT $row, $rowperpage
         ";
+
         $empRecords = $this->Model->all(
             $empQuery,
             $search_padrao
@@ -87,15 +90,17 @@ class Api
             foreach ($this->datatable as $col) {
                 $data[$id][] = $row[$col];
             }
-            $data[$id][] = "
-                <div class='dropdown'>
-                    <button class='btn btn-secondary dropdown-toggle' data-bs-toggle='dropdown'></button>
-                    <ul class='dropdown-menu' style='padding: 0'>
-                        <a class='dropdown-item' style='cursor: pointer' onclick='editar({$row[$this->chave]})'>Editar</a>
-                        <a class='dropdown-item' style='cursor: pointer' onclick='excluir({$row[$this->chave]})'>Excluir</a>
-                    </ul>
-                </div>
-            ";
+            if (isset($this->chave)) {
+                $data[$id][] = "
+                    <div class='dropdown'>
+                        <button class='btn btn-secondary dropdown-toggle' data-bs-toggle='dropdown'></button>
+                        <ul class='dropdown-menu' style='padding: 0'>
+                            <a class='dropdown-item' style='cursor: pointer' onclick='editar({$row[$this->chave]})'>Editar</a>
+                            <a class='dropdown-item' style='cursor: pointer' onclick='excluir({$row[$this->chave]})'>Excluir</a>
+                        </ul>
+                    </div>
+                ";
+            }
         }
 
         //Response

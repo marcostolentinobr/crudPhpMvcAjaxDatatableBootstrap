@@ -35,15 +35,21 @@ class Controller extends Api
 
     protected function view()
     {
-        //dado
+        //form
         $this->setDado();
-
-        //lista
-        $this->setLista();
+        $this->addPagina('form');
 
         //View
-        $this->addPagina('form');
-        require_once RAIZ . "/modulos/_paginas/template.php";
+        $this->setLista();
+
+        //cabecalho
+        require_once RAIZ . '/modulos/_paginas/template_cabecalho.php';
+
+        //datatable
+        require_once RAIZ . '/modulos/_paginas/template_datatable.php';
+
+        //acao
+        require_once RAIZ . '/modulos/_paginas/template_acao.php';
     }
 
     protected function setDado()
@@ -75,7 +81,7 @@ class Controller extends Api
 
                     //sort default
                     if ($sort == 'default') {
-                        $this->datatableSortDefalt = $ordem;
+                        $this->datatableSortDefault = $ordem;
                     }
                 }
 
@@ -90,8 +96,10 @@ class Controller extends Api
             $ordem++;
         }
 
-        $this->datatableNoSort[] = count($this->datatable);
-        $this->datatableTh .= "<th style='width: 1%'></th>";
+        if (isset($this->chave)) {
+            $this->datatableNoSort[] = count($this->datatable);
+            $this->datatableTh .= "<th style='width: 1%'></th>";
+        }
     }
 
     protected function getMsgLinha($number, $msg_padrao = 'afetar')
