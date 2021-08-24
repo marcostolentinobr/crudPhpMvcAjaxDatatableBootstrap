@@ -17,3 +17,4 @@
 *utilizar docker
 *criar um loading
 *utilizar PHPUnit
+*verificar se existe alguma forma de no datatable aparecer scroll já colocando a listagem da altura da tela

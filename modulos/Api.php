@@ -120,10 +120,9 @@ class Api
         if ($DADOS['erros']) {
             exit(json_encode([
                 'status' => 0,
-                'title' => "Incluir $this->modulo",
-                'msg' => 'Verifique os dados',
-                'detail' => '<li>' . implode('</li><li>', $DADOS['erros']) . '</li>',
-                'campo_erros' => $DADOS['erros']
+                'title'  => "Incluir $this->modulo",
+                'msg'    => '<li>' . implode('</li><li>', $DADOS['erros']) . '</li>',
+                'detail' => 'Verifique os dados'
             ]));
         }
         //sem erros de campo
@@ -136,8 +135,8 @@ class Api
             if ($exec['erro']) {
                 exit(json_encode([
                     'status' => 0,
-                    'title' => "Incluir $this->modulo",
-                    'msg' => $this->msg_padrao['execucao'],
+                    'title'  => "Incluir $this->modulo",
+                    'msg'    => $this->msg_padrao['execucao'],
                     'detail' => $exec['erro']
                 ]));
             }
@@ -145,8 +144,8 @@ class Api
             //sucesso
             exit(json_encode([
                 'status' => 1,
-                'title' => "Incluir $this->modulo",
-                'msg' => "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!",
+                'title'  => "Incluir $this->modulo",
+                'msg'    => "$this->descricao_singular {$this->msg_padrao['incluir']} com sucesso!",
                 'detail' => $this->getMsgLinha($exec['prep']->rowCount())
             ]));
         }
@@ -162,8 +161,8 @@ class Api
         if ($exec['erro']) {
             exit(json_encode([
                 'status' => 0,
-                'title' => "Excluir $this->modulo",
-                'msg' => $this->msg_padrao['execucao'],
+                'title'  => "Excluir $this->modulo",
+                'msg'    => $this->msg_padrao['execucao'],
                 'detail' => $exec['erro']
             ]));
         }
@@ -171,8 +170,8 @@ class Api
         elseif ($exec['prep']->rowCount() == 0) {
             exit(json_encode([
                 'status' => 0,
-                'title' => "Excluir $this->modulo",
-                'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para excluir",
+                'title'  => "Excluir $this->modulo",
+                'msg'    => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para excluir",
                 'detail' => $this->getMsgLinha(0)
             ]));
         }
@@ -180,8 +179,8 @@ class Api
         //Sucesso
         exit(json_encode([
             'status' => 1,
-            'title' => "Excluir $this->modulo",
-            'msg' => "$this->descricao_singular {$this->msg_padrao['excluir']} com sucesso!",
+            'title'  => "Excluir $this->modulo",
+            'msg'    => "$this->descricao_singular {$this->msg_padrao['excluir']} com sucesso!",
             'detail' => $this->getMsgLinha($exec['prep']->rowCount())
         ]));
     }
@@ -197,8 +196,8 @@ class Api
         if ($all['erro']) {
             exit(json_encode([
                 'status' => 0,
-                'title' => "Editar $this->modulo",
-                'msg' => $this->msg_padrao['execucao'],
+                'title'  => "Editar $this->modulo",
+                'msg'    => $this->msg_padrao['execucao'],
                 'detail' => $all['erro']
             ]));
         }
@@ -206,8 +205,8 @@ class Api
         elseif (count($this->Dado) == 0) {
             exit(json_encode([
                 'status' => 0,
-                'title' => "Editar $this->modulo",
-                'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para editar",
+                'title'  => "Editar $this->modulo",
+                'msg'    => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para editar",
                 'detail' => $this->getMsgLinha(0, 'encontrar')
             ]));
         }
@@ -215,8 +214,8 @@ class Api
         //Sucesso
         exit(json_encode([
             'status' => 1,
-            'title' => "Editar $this->modulo",
-            'msg' => $this->getMsgLinha(0, 'encontrar'),
+            'title'  => "Editar $this->modulo",
+            'msg'    => $this->getMsgLinha(0, 'encontrar'),
             'detail' => $this->Dado
         ]));
     }
@@ -231,9 +230,9 @@ class Api
         if ($DADOS['erros']) {
             exit(json_encode([
                 'status' => 0,
-                'title' => "Alterar $this->modulo",
-                'msg' => 'Verifique os dados',
-                'detail' => '<li>' . implode('</li><li>', $DADOS['erros']) . '</li>',
+                'title'  => "Alterar $this->modulo",
+                'msg'    => '<li>' . implode('</li><li>', $DADOS['erros']) . '</li>',
+                'detail' => 'Verifique os dados',
                 'campo_erros' => $DADOS['erros']
             ]));
         }
@@ -248,8 +247,8 @@ class Api
             if ($exec['erro']) {
                 exit(json_encode([
                     'status' => 0,
-                    'title' => "Alterar $this->modulo",
-                    'msg' => $this->msg_padrao['execucao'],
+                    'title'  => "Alterar $this->modulo",
+                    'msg'    => $this->msg_padrao['execucao'],
                     'detail' => $exec['erro']
                 ]));
             }
@@ -257,8 +256,8 @@ class Api
             elseif ($exec['prep']->rowCount() == 0) {
                 exit(json_encode([
                     'status' => 0,
-                    'title' => "Alterar $this->modulo",
-                    'msg' => "$this->descricao_singular não {$this->msg_padrao['encontrar']} para alterar",
+                    'title'  => "Alterar $this->modulo",
+                    'msg'    => "$this->descricao_singular não {$this->msg_padrao['alterar']}, nada modificado.",
                     'detail' => $this->getMsgLinha(0)
                 ]));
             }
@@ -266,8 +265,8 @@ class Api
             //Sucesso
             exit(json_encode([
                 'status' => 1,
-                'title' => "Alterar $this->modulo",
-                'msg' => "$this->descricao_singular {$this->msg_padrao['alterar']} com sucesso!",
+                'title'  => "Alterar $this->modulo",
+                'msg'    => "$this->descricao_singular {$this->msg_padrao['alterar']} com sucesso!",
                 'detail' => $this->getMsgLinha($exec['prep']->rowCount())
             ]));
         }
