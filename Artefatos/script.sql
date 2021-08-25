@@ -1,24 +1,27 @@
--- CREATE DATABASE EUAX CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- CREATE DATABASE SENSEDIA CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE TABLE PROJETO (
-                id INT AUTO_INCREMENT NOT NULL,
-                nome VARCHAR(50) NOT NULL,
-                data_fim DATE NOT NULL,
-                PRIMARY KEY (id)
+CREATE TABLE Cidade (
+                CidadeId SMALLINT AUTO_INCREMENT NOT NULL,
+                CidadeDesc VARCHAR(255) NOT NULL,
+                PRIMARY KEY (CidadeId)
 );
 
-CREATE TABLE ATIVIDADE (
-                id BIGINT AUTO_INCREMENT NOT NULL,
-                projeto_id INT NOT NULL,
-                nome VARCHAR(50) NOT NULL,
-                data_inicio DATE NOT NULL,
-                data_fim DATE NOT NULL,
-                data_concluido DATE,
-                PRIMARY KEY (id)
+
+CREATE TABLE Pessoa (
+                PessoaId BIGINT AUTO_INCREMENT NOT NULL,
+                PrimeiroNome VARCHAR(255) NOT NULL,
+                SegundoNome VARCHAR(255) NOT NULL,
+                CidadeId SMALLINT NOT NULL,
+                Endereco VARCHAR(255) NOT NULL,
+                DataNascimento DATE NOT NULL,
+                DataCadastro DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+                Status CHAR(1) NOT NULL,
+                PRIMARY KEY (PessoaId)
 );
 
-ALTER TABLE ATIVIDADE ADD CONSTRAINT projeto_atividade_fk
-FOREIGN KEY (projeto_id)
-REFERENCES PROJETO (id)
+
+ALTER TABLE Pessoa ADD CONSTRAINT cidade_pessoa_fk
+FOREIGN KEY (CidadeId)
+REFERENCES Cidade (CidadeId)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION;

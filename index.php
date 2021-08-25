@@ -16,16 +16,6 @@
 
 <body class="container">
 
-    <!-- menu -->
-    <strong><?= TITULO ?></strong> |
-
-    <?php
-    foreach (MENU as $url => $desc) {
-        echo "<a href='$url'>$desc</a> | ";
-    }
-    ?>
-    <hr style="margin: 5px 0px">
-
     <!-- conteudo -->
     <?php require_once RAIZ . '/modulos/View.php' ?>
 </body>

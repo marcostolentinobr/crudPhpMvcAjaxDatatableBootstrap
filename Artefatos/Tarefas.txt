@@ -15,17 +15,6 @@
 *tratar erros do datatable se vier
 *padronizar funcoes na manutenção em js
 *utilizar docker
-*utilizar PHPUnit
 *criar um loading
-*não permitir excluir quando já vinculado
-*criar um menu melhor bootstrap
-*criador de campos, para remover as redundâncias, colocar layout em controller e voltar a ser array multiplo
+*utilizar PHPUnit
 *verificar se existe alguma forma de no datatable aparecer scroll já colocando a listagem da altura da tela
-*verificar no datatable se tem select para selecionar e vir apenas um projeto
-*o ideal seria tanto em projeto quanto em atividade a ordenacao padrão a data_fim asc, nao concluido
-*template_datatable utilizar com algum require padrão
-*para otimizar, fazer paginação separada.
-*não acrescentado data_inicio nem data_concluido em projeto pois não houve necessidade no primeiro momento;
-*Usar quantidad total de projetos igual o da paginação
-*casas decimais em porcentagem
-*esta atualizando os numeros em projeto quando fecha modal, otimizar isso
